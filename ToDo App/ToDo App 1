@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
 
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left-pane, .right-pane {
+      flex: 1;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .left-pane {
+      background-color: #fff;
+      border-right: 1px solid #ccc;
+      overflow-y: auto;
+    }
+
+    .right-pane {
+      background-color: #e9f5ff;
+    }
+
+    #task-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #task-input {
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f9f9f9;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .task-item.completed span {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .task-item span {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: red;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-pane" id="task-list">
+      <!-- Tasks will appear here -->
+    </div>
+    <div class="right-pane">
+      <form id="task-form">
+        <h2>Add a Task</h2>
+        <input type="text" id="task-input" placeholder="Enter task..." required />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('task-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const taskInput = document.getElementById('task-input');
+      const taskText = taskInput.value.trim();
+      if (taskText === '') return;
+
+      const taskItem = document.createElement('div');
+      taskItem.className = 'task-item';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+
+      const label = document.createElement('span');
+      label.textContent = taskText;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '❌';
+      deleteBtn.className = 'delete-btn';
+
+      taskItem.appendChild(checkbox);
+      taskItem.appendChild(label);
+      taskItem.appendChild(deleteBtn);
+
+      document.getElementById('task-list').appendChild(taskItem);
+      taskInput.value = '';
+
+      checkbox.addEventListener('change', () => {
+        taskItem.classList.toggle('completed');
+      });
+
+      deleteBtn.addEventListener('click', () => {
+        taskItem.remove();
+      });
+    });
+  </script>
+</body>
+</html>
